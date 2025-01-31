@@ -1,5 +1,10 @@
 #!/bin/bash
 
+source ./createDB.sh
+source ./listDBs.sh
+source ./connectToDB.sh
+
+
 source ./createTable.sh
 source ./listTables.sh
 source ./dropTable.sh
@@ -34,43 +39,6 @@ main_menu() {
     done
 }
 
-
-create_database() {
-    db_name=$(dialog --inputbox "Enter database name:" 10 40 --output-fd 1)
-
-    if [[ -z $db_name ]]; then
-      dialog --msgbox "Database name cannot be empty!" 10 30
-      return
-    fi
-    if [ -d $DB_DIR/$db_name ]; then
-        dialog --msgbox "Error: Database '$db_name' already exists." 10 30
-        return
-    fi
-    if [[ ! $db_name =~ ^[a-zA-Z_]+$ ]]; then
-        dialog --msgbox "Invalid database name!" 10 30
-        return
-    fi
-
-    mkdir -p $DB_DIR/$db_name && dialog --msgbox "Database created successfully!" 10 30
-}
-
-list_databases() {
-    db_list=$(ls "$DB_DIR" 2>/dev/null)
-    dialog --msgbox "Databases:\n$db_list" 15 40
-}
-
-connect_to_database() {
-    db_name=$(dialog --inputbox "Enter database name to connect:" 10 40 --output-fd 1)
-    if [[ -z $db_name ]]; then
-      dialog --msgbox "Database name cannot be empty!" 10 30
-      return
-    fi
-    if [ -d "$DB_DIR/$db_name" ]; then
-        database_table_menu $db_name
-    else
-        dialog --msgbox "Database not found!" 10 30
-    fi
-}
 
 
 database_table_menu() {
