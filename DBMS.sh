@@ -37,9 +37,10 @@ main_menu() {
 
 create_database() {
     db_name=$(dialog --inputbox "Enter database name:" 10 40 --output-fd 1)
+
     if [[ -z $db_name ]]; then
       dialog --msgbox "Database name cannot be empty!" 10 30
-      return 1
+      return
     fi
     if [ -d $DB_DIR/$db_name ]; then
         dialog --msgbox "Error: Database '$db_name' already exists." 10 30
@@ -60,6 +61,10 @@ list_databases() {
 
 connect_to_database() {
     db_name=$(dialog --inputbox "Enter database name to connect:" 10 40 --output-fd 1)
+    if [[ -z $db_name ]]; then
+      dialog --msgbox "Database name cannot be empty!" 10 30
+      return
+    fi
     if [ -d "$DB_DIR/$db_name" ]; then
         database_table_menu $db_name
     else
@@ -99,5 +104,7 @@ database_table_menu() {
         esac
     done
 }
+
+
 
 main_menu
