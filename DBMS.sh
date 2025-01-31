@@ -1,6 +1,8 @@
 #!/bin/bash
 
 source ./createTable.sh
+source ./listTable.sh
+source ./dropTable.sh
 
 DB_DIR="databases"
 mkdir -p "$DB_DIR"
@@ -86,9 +88,9 @@ database_table_menu() {
          break
       fi   
         case $choice in
-            1)create_table "$DB_DIR" "$db_name" ;;
-            2) list_tables "$db_name" ;;
-            3) drop_table "$db_name" ;;
+            1) create_table "$DB_DIR" "$db_name" ;;
+            2) list_tables "$DB_DIR" "$db_name" ;;
+            3) drop_table "$DB_DIR" "$db_name" ;;
             4) insert_into_table "$db_name" ;;
             5) select_from_table "$db_name" ;;
             6) update_from_table "$db_name" ;;
