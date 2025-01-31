@@ -3,6 +3,13 @@
 create_database() {
     db_name=$(dialog --inputbox "Enter database name:" 10 40 --output-fd 1)
 
+    EXIT_STATUS=$?
+    if [ $EXIT_STATUS -ne 0 ]; then
+        dialog --msgbox "Going back to database menu ..." 10 40
+        return
+    fi
+
+
     if [[ -z $db_name ]]; then
       dialog --msgbox "Database name cannot be empty!" 10 30
       return
