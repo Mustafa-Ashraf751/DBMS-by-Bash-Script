@@ -12,7 +12,7 @@ list_tables() {
   tables=$(ls -d "$DB_DIR/$DB_Name"/*/ 2>/dev/null | awk -F '/' '{print $(NF-1)}')
 
   if [ -z "$tables" ]; then 
-    dialog --msgbox "No tables found in the database!" 10 30
+    dialog --msgbox "No tables found in the database!" 10 40
     return 1
   else
     dialog --msgbox "Tables in database $DB_Name:\n$tables" 15 40 

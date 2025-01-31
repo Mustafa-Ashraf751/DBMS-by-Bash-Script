@@ -1,7 +1,7 @@
 #!/bin/bash
 
 source ./createTable.sh
-source ./listTable.sh
+source ./listTables.sh
 source ./dropTable.sh
 
 DB_DIR="databases"
