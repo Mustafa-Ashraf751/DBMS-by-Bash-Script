@@ -3,7 +3,7 @@
 source ./createDB.sh
 source ./listDBs.sh
 source ./connectToDB.sh
-
+source ./dropDB.sh
 
 source ./createTable.sh
 source ./listTables.sh
