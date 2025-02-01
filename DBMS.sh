@@ -3,14 +3,14 @@
 source ./createDB.sh
 source ./listDBs.sh
 source ./connectToDB.sh
-
+source ./dropDB.sh
 
 source ./createTable.sh
 source ./listTables.sh
 source ./insertIntoTable.sh
 source ./dropTable.sh
 source ./deleteFromTable.sh
-
+source ./selectFromTable.sh
 
 DB_DIR="databases"
 mkdir -p "$DB_DIR"
@@ -75,7 +75,6 @@ database_table_menu() {
         esac
     done
 }
-
 
 
 

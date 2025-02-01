@@ -22,17 +22,20 @@ while true; do
   dialog --msgbox "Invalid table name please try again!" 10 40
   continue
   else 
-  mkdir -p "$DB_DIR/$DB_Name/$TB_Name"
+  mkdir -p "$DB_DIR/$DB_Name/$TB_Name" 
   touch "$DB_DIR/$DB_Name/$TB_Name/$TB_Name.csv"
   touch "$DB_DIR/$DB_Name/$TB_Name/$TB_Name.meta" 
   num_cols=$(dialog --inputbox "Enter the number of columns:" 10 40 --output-fd 1)
   if [[ -z $num_cols ]]; then
     dialog --msgbox "Number of columns cannot be empty!" 10 40
+    rm -r "$DB_DIR/$DB_Name/$TB_Name"
     continue
   elif [[ ! $num_cols =~ ^[0-9]+$ ]]; then
     dialog --msgbox "Invalid number of columns!" 10 40
+    rm -r "$DB_DIR/$DB_Name/$TB_Name"
     continue
   fi
+   validTable=1
    primaryKey=0 # initialize primaryKey to 0
    tempCol="" # initialize tempCol  
    declare -a columns # initialize columns array to make sure that table has primary key
@@ -40,11 +43,15 @@ while true; do
       col_name=$(dialog --inputbox "Enter column name for col $i:" 10 40 --output-fd 1)
       if [[ -z $col_name ]]; then
         dialog --msgbox "Column name cannot be empty!" 10 40
-        continue
+        validTable=0
+        rm -r "$DB_DIR/$DB_Name/$TB_Name"
+        break
       fi
       if [[ ! $col_name =~ ^[a-zA-Z_]+$ ]]; then
         dialog --msgbox "Invalid column name!" 10 40
-        continue
+        validTable=0
+        rm -r "$DB_DIR/$DB_Name/$TB_Name"
+        break
       fi
       #let the user choose the data type
       choice=$(dialog --title "Please choose data type of table  $TB_Name" --menu "choose an option:" 15 50 6 \1 "String" \
@@ -108,10 +115,15 @@ while true; do
       tempCol="$col_name:$col_type:$col_constraint"
 
       columns+=("$tempCol")
-  done
+  done 
+  if [ $validTable -eq 0 ]; then
+  dialog --msgbox "Table is not created!" 10 30
+  break
+  fi
   #Make sure that table has primary key
   if [ $primaryKey -eq 0 ]; then
     dialog --msgbox "Table must have a primary key" 10 30
+    rm -r "$DB_DIR/$DB_Name/$TB_Name"
     continue
   fi
   printf "%s\n" "${columns[@]}" > "$DB_DIR/$DB_Name/$TB_Name/$TB_Name.meta"  

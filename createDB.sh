@@ -23,5 +23,6 @@ create_database() {
         return
     fi
 
-    mkdir -p $DB_DIR/$db_name && dialog --msgbox "Database created successfully!" 10 30
+    mkdir -p $DB_DIR/$db_name
+    dialog --msgbox "Database created successfully!" 10 30
 }
