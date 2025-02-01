@@ -7,6 +7,7 @@ source ./connectToDB.sh
 
 source ./createTable.sh
 source ./listTables.sh
+source ./insertIntoTable.sh
 source ./dropTable.sh
 source ./deleteFromTable.sh
 
@@ -66,7 +67,7 @@ database_table_menu() {
             1) create_table "$DB_DIR" "$db_name" ;;
             2) list_tables "$DB_DIR" "$db_name" ;;
             3) drop_table "$DB_DIR" "$db_name" ;;
-            4) insert_into_table "$db_name" ;;
+            4) insert_into_table "$DB_DIR" "$db_name" ;;
             5) select_from_table "$db_name" ;;
             6) update_from_table "$db_name" ;;
             7) delete_from_table "$db_name" ;;

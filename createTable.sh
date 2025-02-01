@@ -24,7 +24,7 @@ while true; do
   else 
   mkdir -p "$DB_DIR/$DB_Name/$TB_Name"
   touch "$DB_DIR/$DB_Name/$TB_Name/$TB_Name.csv"
-  touch "$DB_DIR/$DB_Name/$TB_Name/$TB_Name.meta"
+  touch "$DB_DIR/$DB_Name/$TB_Name/$TB_Name.meta" 
   num_cols=$(dialog --inputbox "Enter the number of columns:" 10 40 --output-fd 1)
   if [[ -z $num_cols ]]; then
     dialog --msgbox "Number of columns cannot be empty!" 10 40
@@ -66,24 +66,44 @@ while true; do
       esac
       
       #let the user choose the constraints
-      choice=$(dialog --title "Please choose data type of table  $TB_Name" --menu "choose an option:" 15 55 6 \1 "Primary Key (must choose at least one column)" \
-      2 "Not Null" \
-      3 "Unique"  \
-      4 "None" --output-fd 1)
-      EXIT_STATUS=$?
+      
 
-      if [ $EXIT_STATUS -ne 0 ]; then 
-      dialog --msgbox "Going back to table menu ..." 10 40
-      return 1
+      if [ $primaryKey -eq 1 ]; then
+        
+        choice=$(dialog --title "Please choose data type of table  $TB_Name" --menu "choose an option:" 15 55 6 \1 "Not Null" \
+         2 "Unique"  \
+         3 "None" --output-fd 1)
+         EXIT_STATUS=$?
+
+         if [ $EXIT_STATUS -ne 0 ]; then 
+             dialog --msgbox "Going back to table menu ..." 10 40
+              return 1
+         fi
+        
+         case $choice in 
+          1) col_constraint=notNull;;
+          2) col_constraint=unique;;
+          3) col_constraint=none;;
+         esac
+        else
+         choice=$(dialog --title "Please choose data type of table  $TB_Name" --menu "choose an option:" 15 55 6 \1 "Primary Key (must choose at least one column)" \
+         2 "Not Null" \
+         3 "Unique"  \
+         4 "None" --output-fd 1)
+         EXIT_STATUS=$?
+
+         if [ $EXIT_STATUS -ne 0 ]; then 
+             dialog --msgbox "Going back to table menu ..." 10 40
+              return 1
+         fi
+         case $choice in 
+          1) col_constraint=primaryKey
+           primaryKey=1;;
+          2) col_constraint=notNull;;
+          3) col_constraint=unique;;
+          4) col_constraint=none;;
+         esac
       fi
-     
-     case $choice in 
-      1) col_constraint=primaryKey
-       primaryKey=1;;
-      2) col_constraint=notNull;;
-      3) col_constraint=unique;;
-      4) col_constraint=none;;
-      esac
 
       tempCol="$col_name:$col_type:$col_constraint"
 
