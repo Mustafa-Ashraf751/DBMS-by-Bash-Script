@@ -9,7 +9,7 @@ source ./createTable.sh
 source ./listTables.sh
 source ./dropTable.sh
 source ./deleteFromTable.sh
-
+source ./selectFromTable.sh
 
 DB_DIR="databases"
 mkdir -p "$DB_DIR"
@@ -74,7 +74,6 @@ database_table_menu() {
         esac
     done
 }
-
 
 
 
