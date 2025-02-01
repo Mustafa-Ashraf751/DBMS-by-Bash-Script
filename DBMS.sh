@@ -11,6 +11,8 @@ source ./insertIntoTable.sh
 source ./dropTable.sh
 source ./deleteFromTable.sh
 source ./selectFromTable.sh
+source ./updateFromTable.sh
+
 
 DB_DIR="databases"
 mkdir -p "$DB_DIR"
