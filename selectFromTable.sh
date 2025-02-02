@@ -22,7 +22,7 @@ select_from_table() {
     index=0
 
     while IFS=: read -r col_name col_type col_flag; do
-        if [[ "$col_flag" == "primary" ]]; then
+        if [[ "$col_flag" == "primaryKey" ]]; then
             pk_column="$col_name"
             pk_index=$index
             break
