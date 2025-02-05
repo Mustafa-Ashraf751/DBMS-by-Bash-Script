@@ -164,7 +164,7 @@ update_from_table() {
             elif [[ "$col_type" == "string" && ! "$new_value" =~ ^[a-zA-Z]+$ ]]; then
                 dialog --msgbox "Invalid string format!" 10 40
                 continue
-            elif [[ "$col_type" == "email" && ! "$new_value" =~ ^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$ ]]; then
+            elif [[ "$col_type" == "email" && ! "$new_value" =~ ^[a-zA-Z0-9._%+-]+@[a-zA-Z.-]+\.[a-zA-Z]{2,}$ ]]; then
                 dialog --msgbox "Invalid email format!" 10 40
                 continue
             elif [[ "$col_type" == "date" && ! "$new_value" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]]; then

@@ -61,7 +61,11 @@ select_from_table() {
     elif [ "$choice" == 2 ]; then   
 
      pk_value=$(dialog --inputbox "Enter the primary key value to select:" 10 40 --output-fd 1)
-
+    EXIT_STATUS=$?
+    if [ $EXIT_STATUS -ne 0 ]; then
+        dialog --msgbox "Returning to table menu..." 10 40
+        return 1
+    fi
      if [[ -z $pk_value ]]; then
         dialog --msgbox "Primary key value cannot be empty!" 10 40
         return

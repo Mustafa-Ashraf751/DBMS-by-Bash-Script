@@ -162,7 +162,7 @@ check_data_type(){
                    fi  
           ;;
           email)
-                  if [[ ! $value =~ ^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$ ]]; then
+                  if [[ ! $value =~ ^[a-zA-Z0-9._%+-]+@[a-zA-Z.-]+\.[a-zA-Z]{2,}$ ]]; then
                       dialog --msgbox "Invalid input for data type email!" 10 40
                        return 1
                   fi     

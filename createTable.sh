@@ -6,7 +6,6 @@ DB_Name="$2"
 while true; do
   TB_Name=$(dialog --inputbox "please enter table name:" 10 40 --output-fd 1)
   EXIT_STATUS=$?
-
   if [ $EXIT_STATUS -ne 0 ]; then
   dialog --msgbox "Going back to table menu ..." 10 40
   return 1
@@ -26,6 +25,12 @@ while true; do
   touch "$DB_DIR/$DB_Name/$TB_Name/$TB_Name.csv"
   touch "$DB_DIR/$DB_Name/$TB_Name/$TB_Name.meta" 
   num_cols=$(dialog --inputbox "Enter the number of columns:" 10 40 --output-fd 1)
+    EXIT_STATUS=$?
+    if [ $EXIT_STATUS -ne 0 ]; then
+    rm -r "$DB_DIR/$DB_Name/$TB_Name"
+    dialog --msgbox "Going back to table menu ..." 10 40
+    return 1
+    fi
   if [[ -z $num_cols ]]; then
     dialog --msgbox "Number of columns cannot be empty!" 10 40
     rm -r "$DB_DIR/$DB_Name/$TB_Name"
@@ -41,6 +46,12 @@ while true; do
    declare -a columns # initialize columns array to make sure that table has primary key
    for((i=1; i <= num_cols; i++)); do
       col_name=$(dialog --inputbox "Enter column name for col $i:" 10 40 --output-fd 1)
+      EXIT_STATUS=$?
+      if [ $EXIT_STATUS -ne 0 ]; then
+      rm -r "$DB_DIR/$DB_Name/$TB_Name"
+      dialog --msgbox "Going back to table menu ..." 10 40
+      return 1
+      fi
       if [[ -z $col_name ]]; then
         dialog --msgbox "Column name cannot be empty!" 10 40
         validTable=0
@@ -62,6 +73,7 @@ while true; do
 
       if [ $EXIT_STATUS -ne 0 ]; then 
       dialog --msgbox "Going back to table menu ..." 10 40
+      rm -r "$DB_DIR/$DB_Name/$TB_Name"
       return 1
       fi
      
@@ -71,7 +83,13 @@ while true; do
       3) col_type=email;;
       4) col_type=date;;
       esac
-      
+
+      EXIT_STATUS=$?
+      if [ $EXIT_STATUS -ne 0 ]; then 
+      rm -r "$DB_DIR/$DB_Name/$TB_Name"
+          dialog --msgbox "Going back to table menu ..." 10 40
+          return 1
+      fi
       #let the user choose the constraints
       
 
@@ -80,10 +98,11 @@ while true; do
         choice=$(dialog --title "Please choose data type of table  $TB_Name" --menu "choose an option:" 15 55 6 \1 "Not Null" \
          2 "Unique"  \
          3 "None" --output-fd 1)
+         
          EXIT_STATUS=$?
-
          if [ $EXIT_STATUS -ne 0 ]; then 
              dialog --msgbox "Going back to table menu ..." 10 40
+             rm -r "$DB_DIR/$DB_Name/$TB_Name"
               return 1
          fi
         
@@ -97,10 +116,11 @@ while true; do
          2 "Not Null" \
          3 "Unique"  \
          4 "None" --output-fd 1)
-         EXIT_STATUS=$?
 
+         EXIT_STATUS=$?
          if [ $EXIT_STATUS -ne 0 ]; then 
              dialog --msgbox "Going back to table menu ..." 10 40
+             rm -r "$DB_DIR/$DB_Name/$TB_Name"
               return 1
          fi
          case $choice in 
