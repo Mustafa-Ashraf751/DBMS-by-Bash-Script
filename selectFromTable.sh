@@ -4,6 +4,11 @@ select_from_table() {
     db_name=$1
  while true; do 
     table_name=$(dialog --inputbox "Enter table name:" 10 40 --output-fd 1)
+    EXIT_STATUS=$?
+    if [ $EXIT_STATUS -ne 0 ]; then
+        dialog --msgbox "Returning to table menu..." 10 40
+        return 1
+    fi
 
     if [[ -z $table_name ]]; then
         dialog --msgbox "Table name cannot be empty!" 10 40
