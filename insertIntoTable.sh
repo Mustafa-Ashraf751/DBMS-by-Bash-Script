@@ -41,7 +41,11 @@ while read -r line; do
   colConstraint=$(echo "$line" | awk -F':' '{print $3}')
 
   colValue=$(dialog --inputbox "Please enter valid value for col $colName for data type: $datatype" 10 50 --output-fd 1)
-  
+   EXIST_STATUS=$?
+   if [ $EXIST_STATUS -ne 0 ]; then
+    dialog --msgbox "Going back to table menu ..." 10 40
+    return 1
+   fi
   case $colConstraint in
   primaryKey)
              
